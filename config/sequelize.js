@@ -19,10 +19,10 @@ const sequelizeConfig = process.env.DATABASE_URL
       },
     }
   : {
-      database: "d4pvd1o5hb03rj",
-      host: "ec2-3-225-79-57.compute-1.amazonaws.com",
-      username: "yddmbjdostxuyy",
-      password: "3df6e598424afebc86b548ac8d8f7bca5c6a55a8fd988674ae0099f72b39b29c",
+      database: "d711mo9skr755g",
+      host: "ec2-54-83-21-198.compute-1.amazonaws.com",
+      username: "nyvphvxmjadrck",
+      password: "8ea98f708059d21ce57adb8c48fd6a8c43c38679bea223578d820d513cb35105",
       port: "5432",
       dialect: "postgres",
     };
