@@ -3,10 +3,12 @@ const path = require("path");
 const app = express();
 const productRouterV2 = require("./app/product_v2/routes");
 const logger = require("morgan");
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 const cors = require("cors");
 
-app.use(cors());
+const corsOption = { origin: process.env.URL || "*" };
+
+app.use(cors(corsOption));
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,4 +23,4 @@ app.use((req, res, next) => {
   });
 });
 
-app.listen(process.env.PORT | port, () => console.log("Server: http://localhost:3000"));
+app.listen(PORT, () => console.log(`Server: http://localhost:${PORT} `));
