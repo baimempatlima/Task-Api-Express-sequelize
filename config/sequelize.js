@@ -1,6 +1,6 @@
 const { Sequelize } = require("sequelize");
 
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 // const sequelize = new Sequelize({
 //   database: "latihan-cruds-v1",
