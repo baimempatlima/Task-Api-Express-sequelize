@@ -1,22 +1,30 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-const sequelizeConfig = process.env.DATABASE_URL
-  ? {
-      connectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    }
-  : {
-      database: "daqs7pupd0fuf6",
-      host: "ec2-3-230-238-86.compute-1.amazonaws.com",
-      username: "uejsnlgidoajdf",
-      password: "b0d76577b207205c1658247b61831dc9e14d0f4990e38fb2a3ba785f77daa232",
-      port: "5432",
-      dialect: "postgres",
-    };
-const sequelize = new Sequelize(sequelizeConfig);
+// const sequelizeConfig = process.env.DATABASE_URL
+//   ? {
+//       connectionString: process.env.DATABASE_URL,
+//       ssl: {
+//         rejectUnauthorized: false,
+//       },
+//     }
+//   : {
+//       database: "daqs7pupd0fuf6",
+//       host: "ec2-3-230-238-86.compute-1.amazonaws.com",
+//       username: "uejsnlgidoajdf",
+//       password: "b0d76577b207205c1658247b61831dc9e14d0f4990e38fb2a3ba785f77daa232",
+//       port: "5432",
+//       dialect: "postgres",
+//     };
+
+const sequelize = new Sequelize({
+  database: "daqs7pupd0fuf6",
+  host: "ec2-3-230-238-86.compute-1.amazonaws.com",
+  username: "uejsnlgidoajdf",
+  password: "b0d76577b207205c1658247b61831dc9e14d0f4990e38fb2a3ba785f77daa232",
+  port: "5432",
+  dialect: "postgres",
+});
 
 (async () => {
   try {
