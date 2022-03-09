@@ -5,6 +5,7 @@ const productRouterV2 = require("./app/product_v2/routes");
 const logger = require("morgan");
 const PORT = process.env.PORT || 3000;
 const cors = require("cors");
+require("dotenv").config();
 
 const corsOption = { origin: process.env.URL || "*" };
 

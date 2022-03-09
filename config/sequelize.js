@@ -1,6 +1,33 @@
 const { Sequelize } = require("sequelize");
+require("dotenv").config();
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+const sequelizeConfig = process.env.DATABASE_URL
+  ? {
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    }
+  : {
+      database: "d4pvd1o5hb03rj",
+      host: "ec2-3-225-79-57.compute-1.amazonaws.com",
+      username: "yddmbjdostxuyy",
+      password: "3df6e598424afebc86b548ac8d8f7bca5c6a55a8fd988674ae0099f72b39b29c",
+      port: "5432",
+      dialect: "postgres",
+    };
+const sequelize = new Sequelize(sequelizeConfig);
+
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+})();
+
+module.exports = sequelize;
 
 // const sequelize = new Sequelize({
 //   database: "latihan-cruds-v1",
@@ -11,22 +38,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 //   dialect: "postgres",
 // });
 
-const sequelizeConfig = process.env.DATABASE_URL
-  ? {
-      connectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    }
-  : {
-      database: "d711mo9skr755g",
-      host: "ec2-54-83-21-198.compute-1.amazonaws.com",
-      username: "nyvphvxmjadrck",
-      password: "8ea98f708059d21ce57adb8c48fd6a8c43c38679bea223578d820d513cb35105",
-      port: "5432",
-      dialect: "postgres",
-    };
-const sequelize = new Sequelize(sequelizeConfig);
+// database: "d711mo9skr755g",
+// host: "ec2-54-83-21-198.compute-1.amazonaws.com",
+// username: "nyvphvxmjadrck",
+// password: "8ea98f708059d21ce57adb8c48fd6a8c43c38679bea223578d820d513cb35105",
+// port: "5432",
+// dialect: "postgres",
 
 // const sequelize = new Sequelize({
 //   database: "d4pvd1o5hb03rj",
@@ -45,14 +62,3 @@ const sequelize = new Sequelize(sequelizeConfig);
 //   password: "root",
 //   dialect: "mysql",
 // });
-
-(async () => {
-  try {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
-})();
-
-module.exports = sequelize;
