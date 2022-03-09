@@ -9,10 +9,10 @@ const sequelizeConfig = process.env.DATABASE_URL
       },
     }
   : {
-      database: "d4pvd1o5hb03rj",
-      host: "ec2-3-225-79-57.compute-1.amazonaws.com",
-      username: "yddmbjdostxuyy",
-      password: "3df6e598424afebc86b548ac8d8f7bca5c6a55a8fd988674ae0099f72b39b29c",
+      database: "daqs7pupd0fuf6",
+      host: "ec2-3-230-238-86.compute-1.amazonaws.com",
+      username: "uejsnlgidoajdf",
+      password: "b0d76577b207205c1658247b61831dc9e14d0f4990e38fb2a3ba785f77daa232",
       port: "5432",
       dialect: "postgres",
     };
@@ -37,6 +37,13 @@ module.exports = sequelize;
 //   port: "5432",
 //   dialect: "postgres",
 // });
+
+// database: "d4pvd1o5hb03rj",
+// host: "ec2-3-225-79-57.compute-1.amazonaws.com",
+// username: "yddmbjdostxuyy",
+// password: "3df6e598424afebc86b548ac8d8f7bca5c6a55a8fd988674ae0099f72b39b29c",
+// port: "5432",
+// dialect: "postgres",
 
 // database: "d711mo9skr755g",
 // host: "ec2-54-83-21-198.compute-1.amazonaws.com",
