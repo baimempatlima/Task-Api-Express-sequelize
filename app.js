@@ -5,11 +5,11 @@ const productRouterV2 = require("./app/product_v2/routes");
 const logger = require("morgan");
 const PORT = process.env.PORT || 3000;
 const cors = require("cors");
-require("dotenv").config();
+// require("dotenv").config();
 
-const corsOption = { origin: process.env.URL || "*" };
+// const corsOption = { origin: process.env.URL || "*" };
 
-app.use(cors(corsOption));
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
