@@ -5,19 +5,19 @@ const { Sequelize } = require("sequelize");
 //   dialect: "postgres",
 // });
 
-// const sequelize = new Sequelize("latihan-cruds-v2", "postgres", "root", {
-//   host: "localhost",
-//   port: "5432",
-//   dialect: "postgres",
-// });
-
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+const sequelize = new Sequelize("latihan-cruds-v2", "postgres", "root", {
+  host: "localhost",
+  port: "5432",
   dialect: "postgres",
 });
+
+// const sequelize = new Sequelize(process.env.DATABASE_URL, {
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+//   dialect: "postgres",
+// });
 // (
 // const sequelizeConfig = process.env.DATABASE_URL
 //   ? {
