@@ -1,31 +1,35 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-const sequelizeConfig = process.env.DATABASE_URL
-  ? {
-      connectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    }
-  : {
-      database: "daqs7pupd0fuf6",
-      host: "ec2-3-230-238-86.compute-1.amazonaws.com",
-      username: "uejsnlgidoajdf",
-      password: "b0d76577b207205c1658247b61831dc9e14d0f4990e38fb2a3ba785f77daa232",
-      port: "5432",
-      dialect: "postgres",
-    };
-const sequelize = new Sequelize(sequelizeConfig);
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: "postgres",
+});
+// (
+// const sequelizeConfig = process.env.DATABASE_URL
+//   ? {
+//       connectionString: process.env.DATABASE_URL,
+//       ssl: {
+//         rejectUnauthorized: false,
+//       },
+//     }
+//   : {
+//       database: "latihan-cruds-v2",
+//       host: "localhost",
+//       username: "postgres",
+//       password: "root",
+//       dialect: "postgres",
+//     };
+// const sequelize = new Sequelize(sequelizeConfig);
 
-(async () => {
-  try {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
+  async () => {
+    try {
+      await sequelize.authenticate();
+      console.log("Connection has been established successfully.");
+    } catch (error) {
+      console.error("Unable to connect to the database:", error);
+    }
   }
-})();
+)();
 
 module.exports = sequelize;
 
