@@ -27,5 +27,5 @@ const Product = sequelize.define("Product", {
     type: DataTypes.TEXT,
   },
 });
-
+Product.sync();
 module.exports = Product;
