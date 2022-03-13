@@ -1,11 +1,12 @@
 const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize({
-  database: "latihan-cruds-v2",
-  host: "localhost",
-  username: "root",
-  password: "root",
-  dialect: "mysql",
+  database: process.env.DB_NAME || "latihan-cruds-v2",
+  host: process.env.DB_HOST || "localhost",
+  username: process.env.DB_USERNAME || "root",
+  password: process.env.DB_PASSWORD || "root",
+  port: process.env.DB_PORT || 3000,
+  dialect: "postgres" || "mysql",
 });
 
 (async () => {
