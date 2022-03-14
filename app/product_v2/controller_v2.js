@@ -11,7 +11,8 @@ const store = async (req, res) => {
     fs.renameSync(image.path, target);
     try {
       await Product.sync();
-      const result = await Product.create({ users_id, name, price, stock, status, image_url: `http://localhost:3000/public/${image.originalname}` });
+      const result = await Product.create({ users_id, name, price, stock, status, image_url: `${req.protocol}://${req.headers.host}/public/${encodeURI(image.originalname)}` });
+      // http://localhost:3000/public/${image.originalname}
       res.send(result);
     } catch (e) {
       res.send(e);
@@ -87,7 +88,7 @@ const update = async (req, res) => {
           price,
           stock,
           status,
-          image_url: image ? `http://localhost:3000/public/${image.originalname}` : null,
+          image_url: image ? `${req.protocol}://${req.headers.host}/public/${encodeURI(image.originalname)}` : null,
         },
         {
           where: {

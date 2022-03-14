@@ -1,0 +1,37 @@
+// require("dotenv").config();
+
+// const env = (process.env.NODE_ENV = "production");
+
+// let sequelize = "";
+// switch (env) {
+//   case `development`:
+//     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+//     sequelize = new Sequelize({
+//       database: "latihan-cruds-v2",
+//       host: "localhost",
+//       username: "root",
+//       password: "root",
+//       port: 3000,
+//       dialect: "mysql",
+//     });
+//     break;
+//   case `production`:
+//     sequelize = new Sequelize({
+//       database: process.env.DB_NAME,
+//       host: process.env.DB_HOST,
+//       username: process.env.DB_USERNAME,
+//       password: process.env.DB_PASSWORD,
+//       port: process.env.DB_PORT,
+//       dialect: "postgres",
+//     });
+//     break;
+// }
+
+// const sequelize = new Sequelize({
+//   database: process.env.DB_NAME || "latihan-cruds-v2",
+//   host: process.env.DB_HOST || "localhost",
+//   username: process.env.DB_USERNAME || "root",
+//   password: process.env.DB_PASSWORD || "root",
+//   port: process.env.DB_PORT || 3000,
+//   dialect: "postgres" || "mysql",
+// });
