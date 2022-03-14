@@ -6,8 +6,16 @@ const productRouterV2 = require("./app/product_v2/routes");
 const logger = require("morgan");
 const PORT = process.env.PORT || 3000;
 const cors = require("cors");
+require("dotenv");
 
-app.use(cors());
+// var corsOption = {
+//   origin: "http://localhost:3000",
+// };
+const corsOption = {
+  credentials: true,
+  origin: process.env.URL || "*",
+};
+app.use(cors(corsOption));
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
