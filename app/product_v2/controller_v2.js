@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const Product = require("./model");
-const res = require("express/lib/response");
+
 
 const store = async (req, res) => {
   const { users_id, name, price, stock, status } = req.body;
