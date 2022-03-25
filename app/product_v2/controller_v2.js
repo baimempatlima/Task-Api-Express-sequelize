@@ -2,21 +2,27 @@ const path = require("path");
 const fs = require("fs");
 const Product = require("./model");
 
-
 const store = async (req, res) => {
-  const { users_id, name, price, stock, status } = req.body;
+  const createProduct = req.body;
   const image = req.file;
   if (image) {
     const target = path.join(__dirname, "../../uploads", image.originalname);
     fs.renameSync(image.path, target);
-    try {
-      await Product.sync();
-      const result = await Product.create({ users_id, name, price, stock, status, image_url: `${req.protocol}://${req.headers.host}/public/${encodeURI(image.originalname)}` });
-      // http://localhost:3000/public/${image.originalname}
-      res.send(result);
-    } catch (e) {
-      res.send(e);
-    }
+    createProduct.image = {
+      image_url: `http://localhost:3000/public/${image.originalname}`,
+    };
+  } else {
+    createProduct.image = {
+      image_url: null,
+    };
+  }
+
+  try {
+    await Product.sync();
+    const product = await Product.create(createProduct);
+    res.send(product);
+  } catch (error) {
+    res.send(error);
   }
 };
 
@@ -29,78 +35,86 @@ const index = async (req, res) => {
   }
 };
 
-// const index = (req, res) => {
-//   Product.findOne().then((products) => res.send(products));
-// };
+
+
 const view = async (req, res) => {
-  // let id= req.params.id;
-  try {
-    const product = await Product.findOne({
-      where: {
-        id: req.params.id,
-      },
+  const product = await Product.findOne({
+    where: {
+      id: req.params.id,
+    },
+  });
+
+  if (product == null) {
+    res.status(404).send({
+      messege: "Not Found",
     });
-    res.send(product);
-  } catch (e) {
-    res.send(e);
+  } else {
+    res.status(200).send(product);
   }
+
 };
-// const view = (req, res) => {
-//   Product.findAll({
-//     where: {
-//       id: req.params.id,
-//     },
-//   }).then((products) => res.send(products));
-// };
+
 
 const destroy = async (req, res) => {
-  try {
-    const product = await Product.destroy({
-      where: {
-        id: req.params.id,
-      },
+  const product = await Product.destroy({
+    where: {
+      id: req.params.id,
+    },
+  });
+  if (product == null) {
+    res.send({
+      messege: "failed",
     });
-    res.send(product);
-  } catch (e) {
-    res.send(e);
+  } else {
+    res.send({
+      messege: "data delete successfully",
+      product,
+    });
   }
 };
-// const destroy = (req, res) => {
-//   Product.destroy({
-//     where: {
-//       id: req.params.id,
-//     },
-//   }).then(() => res.send("success delete"));
-// };
 
 const update = async (req, res) => {
-  try {
-    const { users_id, name, price, stock, status } = req.body;
-    const image = req.file;
+  const { users_id, name, price, stock, status } = req.body;
+  const image = req.file;
+  const id = req.params.id;
 
-    if (image) {
-      const target = path.join(__dirname, "../../uploads", image.originalname);
-      fs.renameSync(image.path, target);
-      const product = await Product.update(
-        {
-          users_id,
-          name,
-          price,
-          stock,
-          status,
-          image_url: image ? `${req.protocol}://${req.headers.host}/public/${encodeURI(image.originalname)}` : null,
+  if (image) {
+    const target = path.join(__dirname, "../../uploads", image.originalname);
+    fs.renameSync(image.path, target);
+    body = { users_id, name, price, stock, status, image_url: `${req.protocol}://${req.headers.host}/public/${encodeURI(image.originalname)}` };
+  }
+
+  const result = await Product.findAll({
+    where: {
+      id: id,
+    },
+  });
+
+  if (result.length < 1) {
+    res.send({
+      status: 404,
+      message: `data id ${id} not found`,
+    });
+  } else {
+    try {
+      const product = await Product.update(body, {
+        where: {
+          id: req.params.id,
         },
-        {
-          where: {
-            id: req.params.id,
-          },
-        }
-      ).then(() => res.send("success update"));
+      });
+      res.status(200).send({
+        message: "succes updated",
+        data: product,
+      });
+    } catch (error) {
+      res.status(400).send({
+        message: "failed",
+        error,
+      });
     }
-  } catch (e) {
-    res.send(e);
   }
 };
+
 
 module.exports = {
   store,
