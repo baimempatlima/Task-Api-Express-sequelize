@@ -9,7 +9,7 @@ const store = async (req, res) => {
     const target = path.join(__dirname, "../../uploads", image.originalname);
     fs.renameSync(image.path, target);
     createProduct.image = {
-      image_url: `http://localhost:3000/public/${image.originalname}`,
+      image_url: `${req.protocol}://${req.headers.host}/public/${encodeURI(image.originalname)}`,
     };
   } else {
     createProduct.image = {
@@ -20,56 +20,80 @@ const store = async (req, res) => {
   try {
     await Product.sync();
     const product = await Product.create(createProduct);
-    res.send(product);
+    res.status(200).send({ message: "successfully added data", product });
   } catch (error) {
-    res.send(error);
+    res.status(503).send({
+      message: "Service Unavailable",
+      error,
+    });
   }
 };
 
 const index = async (req, res) => {
   try {
     const product = await Product.findAll();
-    res.send(product);
+    res.status(200).send({ product });
   } catch (e) {
-    res.send(e);
+    res.status(400).send(e);
   }
 };
-
-
 
 const view = async (req, res) => {
-  const product = await Product.findOne({
-    where: {
-      id: req.params.id,
-    },
-  });
-
-  if (product == null) {
-    res.status(404).send({
-      messege: "Not Found",
+  try {
+    const product = await Product.findOne({
+      where: {
+        id: req.params.id,
+      },
     });
-  } else {
-    res.status(200).send(product);
+    if (product == null) {
+      res.status(404).send({
+        messege: "Not Found",
+      });
+    } else {
+      res.status(200).send(product);
+    }
+  } catch (error) {
+    res.status(503).send({
+      message: "Service Unavailable",
+      error,
+    });
   }
-
 };
 
-
 const destroy = async (req, res) => {
-  const product = await Product.destroy({
+  const result = await Product.findAll({
     where: {
       id: req.params.id,
     },
   });
-  if (product == null) {
+  if (result.length < 1) {
     res.send({
-      messege: "failed",
+      status: 404,
+      message: `data id ${id} not found`,
     });
   } else {
-    res.send({
-      messege: "data delete successfully",
-      product,
-    });
+    try {
+      const product = await Product.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      if (product == 0) {
+        res.status(400).send({
+          messege: "failed",
+        });
+      } else {
+        res.status(200).send({
+          messege: "data delete successfully",
+          product,
+        });
+      }
+    } catch (error) {
+      res.status(503).send({
+        message: "Service Unavailable",
+        error,
+      });
+    }
   }
 };
 
@@ -104,17 +128,16 @@ const update = async (req, res) => {
       });
       res.status(200).send({
         message: "succes updated",
-        data: product,
+        product,
       });
     } catch (error) {
-      res.status(400).send({
-        message: "failed",
+      res.status(503).send({
+        message: "Service Unavailable ",
         error,
       });
     }
   }
 };
-
 
 module.exports = {
   store,
